@@ -459,3 +459,18 @@ inputLoginPin.blur();
 
 
 })
+
+
+//*** 166 TRANSFER MONEY FROM ONE USER TO ANOTHER */
+
+
+
+btnTransfer.addEventListener('click',function(e)
+{
+
+e.preventDefault();
+const transfer= Number(inputTransferAmount.value);
+const person=accounts.find(acc=>acc.username===inputTransferTo.value)
+
+
+})
