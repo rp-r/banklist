@@ -122,11 +122,54 @@ displaymovements(account1.movements);
 
 const displayBalance = function (data) {
   const b = data.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${b} EUR`;
+  labelBalance.textContent = `${b}€`;
 };
 
-
+//** DISPLAY THE ACCOUNT BALANCE */
 displayBalance(account1.movements);
+
+//**DISPLAY SUMMARY  */
+
+const caldisplayin=function(movements)
+{
+
+   const s=movements
+   .filter(mov=>mov>0)
+   .reduce((acc,mov)=>acc+mov,0);
+
+
+
+
+
+
+   labelSumIn.textContent= `${s}€`
+
+   const interest=movements
+   . filter(mov=>mov>0)
+   .map(deposit=>(deposit*1.2)/100)
+   .filter(int=>int>1)
+   .reduce((acc,mov)=>acc+mov,0);
+   labelSumInterest.textContent=`${ interest} €`
+
+
+
+}
+const caldisplayout=function(movements)
+{
+
+   const s=movements
+   .filter(mov=>mov<0)
+   .reduce((acc,mov)=>acc+mov,0);
+
+   labelSumOut.textContent= `${Math.abs(s)}€`
+
+
+
+
+}
+caldisplayin(account1.movements);
+caldisplayout(account1.movements);
+
 
 
 
@@ -356,3 +399,23 @@ const Totaldeposit=movements
 .reduce((acc,cur)=>acc+cur,0)
 
 console.log(Math.trunc(Totaldeposit));
+
+
+
+/** 164 : The find Method
+ * 
+ * Find the first value in the Array based on a condition 
+ *  Filter return all the elements that staidfy the condition 
+ * while find return first one
+ * filter return array 
+ * while find return first values
+ * 
+ * 
+ */
+
+const f=movements.find(el=>el<0)
+console.log(f);
+
+
+
+const account=
