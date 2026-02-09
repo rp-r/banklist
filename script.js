@@ -116,7 +116,7 @@ const displaymovements = function (movements) {
   });
 };
 
-displaymovements(account1.movements);
+//displaymovements(account1.movements);
 
 /** Add the values from the array and display the balance */
 
@@ -126,30 +126,31 @@ const displayBalance = function (data) {
 };
 
 //** DISPLAY THE ACCOUNT BALANCE */
-displayBalance(account1.movements);
+//displayBalance(account1.movements);
 
 //**DISPLAY SUMMARY  */
 
-const caldisplayin=function(movements)
+const displaysummary=function(acc)
 {
 
-   const s=movements
+   const income=acc.movements
    .filter(mov=>mov>0)
    .reduce((acc,mov)=>acc+mov,0);
 
+   labelSumIn.textContent= `${income}€`
 
-
-
-
-
-   labelSumIn.textContent= `${s}€`
-
-   const interest=movements
+   const interest=acc.movements
    . filter(mov=>mov>0)
-   .map(deposit=>(deposit*1.2)/100)
+   .map(deposit=>(deposit*acc.interestRate)/100)
    .filter(int=>int>1)
    .reduce((acc,mov)=>acc+mov,0);
-   labelSumInterest.textContent=`${ interest} €`
+   labelSumInterest.textContent=`${ interest} €`;
+
+     const deposit=acc.movements
+   .filter(mov=>mov<0)
+   .reduce((acc,mov)=>acc+mov,0);
+
+   labelSumOut.textContent= `${Math.abs(deposit)}€`;
 
 
 
@@ -161,14 +162,14 @@ const caldisplayout=function(movements)
    .filter(mov=>mov<0)
    .reduce((acc,mov)=>acc+mov,0);
 
-   labelSumOut.textContent= `${Math.abs(s)}€`
+   labelSumOut.textContent= `${Math.abs(s)}€`;
 
 
 
 
 }
-caldisplayin(account1.movements);
-caldisplayout(account1.movements);
+//caldisplayin(account1.movements);
+//caldisplayout(account1.movements);
 
 
 
@@ -409,7 +410,7 @@ console.log(Math.trunc(Totaldeposit));
  * while find return first one
  * filter return array 
  * while find return first values
- * 
+ *  === 
  * 
  */
 
@@ -418,4 +419,43 @@ console.log(f);
 
 
 
-const account=
+const account= accounts.find(acc=>acc.owner==='Jessica Davis');
+console.log(account)
+
+
+/** 165 Implemenrt Login  
+ * 
+ * prevent from submitting 
+ *   e.preventDefault();
+ * 
+*/
+ let currentUser;
+
+btnLogin.addEventListener('click',function(e){
+
+  e.preventDefault();
+ currentUser=accounts.find(acc=>acc.username===inputLoginUsername.value.toLowerCase());
+ if(currentUser?.pin===Number(inputLoginPin.value)){
+
+  //DISPLAY UI AND MESSAGES
+
+  labelWelcome.textContent=` Wellcome back ${currentUser.owner.split(' ')[0]}`;
+  containerApp.style.opacity=100;
+
+//CLEAR THE FIELDS 
+inputLoginUsername.value=inputLoginPin.value='';
+inputLoginPin.blur();
+
+  // DISPLAY MOVEMENTS
+  displaymovements(currentUser.movements);
+  // DISPLAY BALANCE
+  displayBalance(currentUser.movements);
+  //DISPLAY SUMMARY 
+  displaysummary(currentUser);
+
+
+
+ }
+
+
+})
