@@ -120,9 +120,9 @@ const displaymovements = function (movements) {
 
 /** Add the values from the array and display the balance */
 
-const displayBalance = function (data) {
-  const b = data.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${b}€`;
+const displayBalance = function (acc) {
+   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
 };
 
 //** DISPLAY THE ACCOUNT BALANCE */
@@ -447,11 +447,11 @@ inputLoginUsername.value=inputLoginPin.value='';
 inputLoginPin.blur();
 
   // DISPLAY MOVEMENTS
-  displaymovements(currentUser.movements);
+  //displaymovements(currentUser.movements);
   // DISPLAY BALANCE
-  displayBalance(currentUser.movements);
+ // displayBalance(currentUser);
   //DISPLAY SUMMARY 
-  displaysummary(currentUser);
+  updateUI(currentUser);
 
 
 
@@ -470,7 +470,209 @@ btnTransfer.addEventListener('click',function(e)
 
 e.preventDefault();
 const transfer= Number(inputTransferAmount.value);
-const person=accounts.find(acc=>acc.username===inputTransferTo.value)
+const receiver=accounts.find(acc=>acc.username===inputTransferTo.value)
 
+inputTransferAmount.value=inputTransferTo.value='';
+
+if(transfer >0 &&
+   receiver&&
+  currentUser.balance>= transfer
+  && (receiver?.username!== currentUser.username))
+{
+
+  console.log('Transfer Valid');
+
+  currentUser.movements.push(-transfer);
+  receiver.movements.push(transfer);
+    updateUI(currentUser);
+}
+
+else
+{
+  console.log('invalid');
+}
 
 })
+
+
+
+
+//** UPDATE UI */
+
+const updateUI=function(acc)
+{
+displaymovements(acc.movements);
+  // DISPLAY BALANCE
+  displayBalance(acc);
+  //DISPLAY SUMMARY 
+  displaysummary(acc);
+}
+
+
+
+/**** 167: The findindex Method
+ * 
+ * findindex return the index of find 
+ * delete from the account we need index of the account to be deleted 
+ * 
+ */
+
+
+btnClose.addEventListener('click',function(e)
+{
+
+  e.preventDefault();
+  //console.log('Deelete');
+//inputCloseUsername.value=inputClosePin.value=' ';
+
+if(currentUser.username== inputCloseUsername.value && currentUser.pin== Number(inputClosePin.value))
+{
+
+//console.log("Right person ");
+const index=accounts.findIndex(acc=>acc.username===currentUser.username)
+//DELETE ACCOUNT                              
+ accounts.splice(index,1)
+//  console.log(index);
+//inputCloseUsername.value=inputClosePin.value=' ';
+//HIDE UI 
+containerApp.style.opacity=0;
+
+} 
+inputCloseUsername.value=inputClosePin.value=' ';
+});
+
+
+/**168 THE NEW findLAST and findLastIndex Methods */
+/**FIND METHOD FIND FIRST AND findLast FINDS THE LAST METHOD */
+console.log(movements);
+
+ const withdrawalamount=movements.findLast(mov=>mov<0)
+ console.log(withdrawalamount);
+ const lastmovementamount=movements.findLastIndex(mov=>Math.abs(mov)>1000)
+ console.log(` Your latest large movements was ${movements.length-lastmovementamount} movements ago `);
+
+ /** 169: SOME AND EVERY */
+
+ console.log(movements);
+ console.log(movements.includes(-130));
+
+ const anyDeposit=movements.some(mov=>mov>1500)
+ console.log(anyDeposit);
+
+
+ //** BANK LOAN WILL BE ACCEPTED IF 10% OF LOAN HAS DEPOSIT IN THE ACCOUNT */
+
+
+
+ btnLoan.addEventListener('click',function(e)
+{
+
+  e.preventDefault();
+   const amount=Number(inputLoanAmount.value);
+
+   console.log(amount);
+
+   //** SOME function that if any amount in the movement is 10% of  the loan requested amount  */
+   if(amount > 0 && currentUser.movements.some(mov=>mov>=amount*0.1))
+   {
+//ADD MOVEMENTS
+
+currentUser.movements.push(amount)
+updateUI(currentUser);
+
+}
+inputLoanAmount.value='';
+})
+
+
+//EVERY IF every amount satisfy the account
+
+console.log(account1.movements.every(mov=>mov>0));
+
+
+//SEPARTAE CALLBACK
+
+const depositCall=mov=>mov<0;
+
+console.log(movements.some(depositCall));
+console.log(movements.every(depositCall));
+console.log(movements.filter(depositCall));
+
+
+//*** 170 FLAT AND FLATMAP */
+
+
+const arr=[[1,2,3],[4,5,6],7,8]
+console.log(arr)
+console.log(arr.flat())
+const arr1=[[1,[2,3]],[4,[5,6]],7,8]
+
+console.log(arr1.flat(2))
+
+//BANK EXAMPLE 
+
+const accountMovements=accounts.map(acc=>acc.movements);
+console.log(accountMovements);
+const allmovements=accountMovements.flat().reduce((acc,mov)=>acc+mov,0);
+console.log(allmovements);
+
+//FLAT MAP goes one level down
+
+const sumAllBalance=accounts.flatMap(mov=>mov.movements).reduce((acc,mov)=>acc+mov,0);
+console.log(sumAllBalance);
+
+
+/** CHANEGLEN  170  
+ * YOUR TASKS:
+1. Store the the average weight of a "Husky" in a variable "huskyWeight"
+2. Find the name of the only breed that likes both "running" and "fetch" ("dogBothActivities" variable)
+3. Create an array "allActivities" of all the activities of all the dog breeds
+4. Create an array "uniqueActivities" that contains only the unique activities (no activity repetitions). HINT: Use a technique with a special data structure that we studied a few sections ago.
+5. Many dog breeds like to swim. What other activities do these dogs like? Store all the OTHER activities these breeds like to do, in a unique array called "swimmingAdjacent".
+6. Do all the breeds have an average weight of 10kg or more? Log to the console whether "true" or "false".
+7. Are there any breeds that are "active"? "Active" means that the dog has 3 or more activities. Log to the console whether "true" or "false".
+
+BONUS: What's the average weight of the heaviest breed that likes to fetch? HINT: Use the "Math.max" method along with the ... operator.
+
+TEST DATA:
+
+TEST DATA:
+
+const breeds = [
+  {
+    breed: 'German Shepherd',
+    averageWeight: 32,
+    activities: ['fetch', 'swimming'],
+  },
+  {
+    breed: 'Dalmatian',
+    averageWeight: 24,
+    activities: ['running', 'fetch', 'agility'],
+  },
+  {
+    breed: 'Labrador',
+    averageWeight: 28,
+    activities: ['swimming', 'fetch'],
+  },
+  {
+    breed: 'Beagle',
+    averageWeight: 12,
+    activities: ['digging', 'fetch'],
+  },
+   {
+    breed: 'Bulldog',
+    averageWeight: 36,
+    activities: ['sleeping'],
+  },
+  {
+    breed: 'Poodle',
+    averageWeight: 18,
+    activities: ['agility', 'fetch'],
+  },
+];
+
+GOOD LUCK 🙂
+*/
+
+
+*/
