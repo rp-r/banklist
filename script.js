@@ -101,9 +101,17 @@ accounts.forEach(function (account) {
   );
 });
 
-const displaymovements = function (movements) {
+const displaymovements = function (movements,sort=false) {
+
+
+
   containerMovements.innerHTML = '';
-  movements.forEach(function (move, i) {
+
+  const movs=sort?movements.slice().sort((a,b)=>a-b):movements;
+  movs.forEach(function (move, i) {
+  
+    
+  
     const type = move > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
@@ -675,4 +683,34 @@ GOOD LUCK 🙂
 */
 
 
+/*** 172 sorting ARRAY 
+ * 
+ * 
+ *  sort()this  mute the orignal
+ * 
+ * sort method based on string
+ * we can use compare call back function  
 */
+
+
+const owner=['Jonas','Zach','Adam','Martha']
+console.log(owner.sort())
+
+// return <0,A,B
+// return >0,B,A
+
+const asc=movements.sort((a,b)=>b-a);
+
+const dsc=movements.sort((a,b)=>b-a);
+console.log(asc,dsc);
+
+let isSort=false;
+
+btnSort.addEventListener('click',function(e){
+e.preventDefault();
+
+displaymovements(currentUser.movements,!isSort)
+isSort=!isSort;
+js
+
+})
