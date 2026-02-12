@@ -10,6 +10,7 @@ const account1 = {
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+  type:'Premium',
 };
 
 const account2 = {
@@ -17,6 +18,7 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+   type:'standard',
 };
 
 const account3 = {
@@ -24,6 +26,7 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+   type:'Premium',
 };
 
 const account4 = {
@@ -31,6 +34,7 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+   type:'basic',
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -714,3 +718,167 @@ isSort=!isSort;
 js
 
 })
+
+
+
+/***173 Array Group
+ * to group values in the array
+ * 
+ */
+
+console.log(movements);
+
+const groupMovements=
+Object.groupBy(movements,movements=>movements>0 ?'deposit':'withdrawl');
+
+//IT WILL RETURN OBJECT 
+console.log(groupMovements);
+
+//***  TO CHECK WHO IS MORE ACTIVE WITH RESPECT TP MOVEMENTS */
+
+
+const checkactive=Object.groupBy(accounts,account  =>  {
+    const accountmovement=account.movements.length;
+
+    if(accountmovement >=8) return 'Very Active';
+    if(accountmovement >=4) return 'Active';
+    if(accountmovement >=1) return 'Moderate';
+
+    return 'Not Active';
+
+
+
+  }
+);
+
+console.log(checkactive);
+
+//*** NOW GROUP BT TYPE */
+
+const accountype=Object.groupBy(accounts,account=>account.type)
+//2ND WAY
+const accountype1=Object.groupBy(accounts,({type})=>type);
+
+console.log(accountype1);
+
+
+//** 174 DIIFERENT WAYS FOR ARRAY */
+
+
+console.log(new Array(1,2,3,4));
+
+
+const nu=Array.from({length:100},(_,i)=>i+1);
+console.log(nu);
+
+
+//***EXTRACT ALL THE ARRAY VALUES FROM THE LIST USING CLASSNAM
+// AND QUERYSELECTORALL() */
+
+labelBalance.addEventListener('click',function(){
+
+const movementUI=Array.from(document.querySelectorAll('.movements__value'),el=>Number(el.textContent.replace('€','')));
+console.log(movementUI);
+
+})
+
+
+//****175
+
+/**
+ * movement. reverse(); Mutated -- destructive method
+ * movement.slice().reverse()
+ * moverment.toReversed()
+ * moveemnts.tosorted()
+ * moverment.with(1,2000)... ADD AT INDEX 2000 WITHOUT MUTATING
+ * 
+ * 
+ * 
+ */
+
+
+
+//* 176
+// 
+
+
+// Coding Challenge #5
+
+/*
+Julia and Kate are still studying dogs. This time they want to figure out
+if the dogs in their care are eating too much or too little food.
+
+- Formula for calculating recommended food portion:
+  recommendedFood = weight ** 0.75 * 28
+  (The result is in grams of food, and the weight needs to be in kg)
+
+- Eating too much means the dog's current food portion is larger than
+  the recommended portion, and eating too little is the opposite.
+
+- Eating an okay amount means the dog's current food portion is within
+  a range 10% above and below the recommended portion (see hint).
+
+YOUR TASKS:
+
+1. Loop over the array containing dog objects, and for each dog,
+   calculate the recommended food portion (recFood) and add it to the
+   object as a new property. Do NOT create a new array—simply loop
+   over the existing array.
+
+2. Find Sarah's dog and log to the console whether it's eating too
+   much or too little.
+   HINT: Some dogs have multiple owners, so you first need to find
+   Sarah in the owners array. This one is a bit tricky (on purpose) 🤓
+
+3. Create an array containing all owners of dogs who eat too much
+   (ownersTooMuch) and another array with all owners of dogs who eat
+   too little (ownersTooLittle).
+
+4. Log a string to the console for each array created in step 3, like:
+   "Matilda and Alice and Bob's dogs eat too much!"
+   and
+   "Sarah and John and Michael's dogs eat too little!"
+
+5. Log to the console whether there is ANY dog eating EXACTLY the
+   recommended amount of food (just true or false).
+
+6. Log to the console whether ALL dogs are eating an OKAY amount of
+   food (just true or false).
+
+7. Create an array containing the dogs that are eating an OKAY amount
+   of food (try to reuse the condition used in step 6).
+
+8. Group the dogs into the following 3 groups: 'exact', 'too-much',
+   and 'too-little', based on whether they are eating too much, too
+   little, or the exact recommended amount.
+
+9. Group the dogs by the number of owners they have.
+
+10. Sort the dogs array by recommended food portion in ascending order.
+    Make sure to NOT mutate the original array!
+
+HINT 1:
+Use many different tools to solve these challenges. You can use the
+summary lecture to help choose between them 😉
+
+HINT 2:
+Being within a range 10% above and below the recommended portion means:
+current > (recommended * 0.90) && current < (recommended * 1.10)
+
+Basically, the current portion should be between 90% and 110% of the
+recommended portion.
+
+TEST DATA:
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John', 'Leo'] },
+  { weight: 18, curFood: 244, owners: ['Joe'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+GOOD LUCK 😊
+*/
+
+
+
